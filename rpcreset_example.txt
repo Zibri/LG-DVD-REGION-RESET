@@ -1,0 +1,63 @@
+root@localhost $ ./rpcreset.sh
+User and Vendor reset for LG GUD*N drives.
+By Zibri.
+http://www.zibri.org
+
+Usage: ../rpcreset.sh [-u|-v|-r region] [-model modelname]
+
+root@localhost $ ./rpcreset.sh -i
+Drive is set to region: not set
+User resets left: 4
+User changes left: 5
+root@localhost $ ./rpcreset.sh -r 2
+Drive is set to region: 2
+User resets left: 4
+User changes left: 4
+root@localhost $ ./rpcreset.sh -r 3 # <--- This doesn't work because the drive is already set to region 2 and there is no region 3 disc in drive.
+Drive is set to region: 2
+User resets left: 4
+User changes left: 4
+root@localhost $ ./rpcreset.sh -r 4 # <--- This doesn't work because the drive is already set to region 2 and there is no region 4 disc in drive.
+Drive is set to region: 2
+User resets left: 4
+User changes left: 4
+root@localhost $ ./rpcreset.sh -u # <--- User reset
+Drive is set to region: not set
+User resets left: 3
+User changes left: 5
+root@localhost $ ./rpcreset.sh -r 3 # <--- This works because the drive region is not set.
+Drive is set to region: 3
+User resets left: 3
+User changes left: 4
+root@localhost $ ./rpcreset.sh -u # <--- User reset
+Drive is set to region: not set
+User resets left: 2
+User changes left: 5
+root@localhost $ ./rpcreset.sh -r 2 # <--- This works because the drive region is not set.
+Drive is set to region: 2
+User resets left: 2
+User changes left: 4
+root@localhost $ ./rpcreset.sh -u # <--- User reset
+Drive is set to region: not set
+User resets left: 1
+User changes left: 5
+root@localhost $ ./rpcreset.sh -r 4 # <--- This works because the drive region is not set.
+Drive is set to region: 4
+User resets left: 1
+User changes left: 4
+root@localhost $ ./rpcreset.sh -u # <--- User reset
+Drive is set to region: not set
+User resets left: 0
+User changes left: 5
+root@localhost $ ./rpcreset.sh -r 5 # <--- This works because the drive region is not set.
+Drive is set to region: 5
+User resets left: 0
+User changes left: 4
+root@localhost $ ./rpcreset.sh -u # <--- This doesn't work because there are no more user resets.
+Drive is set to region: 5
+User resets left: 0
+User changes left: 4
+root@localhost $ ./rpcreset.sh -v # Vendor reset. Resets region and user reset counter.
+Drive is set to region: not set
+User resets left: 4
+User changes left: 5
