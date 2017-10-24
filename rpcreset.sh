@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# User and Vendor reset for LG GUD*N drives.
+# User and Vendor reset for LG GU**N drives.
+# May work on all recent LG drives (use -model drivename to test)
 # By Zibri.
 # http://www.zibri.org
 #
