@@ -8,7 +8,7 @@ unset regionmsk
 unset rinq
 bold=$(tput bold)
 normal=$(tput sgr0)
-dvdmodel="DVDRAM GUD"
+dvdmodel="DVDRAM GU"
 if [ "${1^^}" == "-U" ]; then
     scmd=81
 else
@@ -32,7 +32,7 @@ else
                     echo "Program installed in /usr/local/sbin."
                     exit 0
                 else
-                    echo "User and Vendor reset for LG GUD*N drives."
+                    echo "User and Vendor reset for LG GU**N drives."
                     echo "By Zibri."
                     echo "http://www.zibri.org"
                     echo
