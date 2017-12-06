@@ -52,7 +52,7 @@ fi
 if [[ $(uname -s) == *"inux"* ]]; then
     function checksg3 () 
     { 
-        return $([ "" == "$(dpkg-query -W --showformat='${Status}\n' sg3-utils 2>/dev/null|grep installed)" ])
+        return $([ "$(which sg_raw 2>/dev/null)" == "" ];)
     }
     if checksg3; then
         echo "Installing pre-requisites."
@@ -62,7 +62,7 @@ else
     if [[ $(uname -s) == *"CYGWIN"* ]]; then
         function checksg3 () 
         { 
-            return $([ "$(which sg_raw 2>/dev/null)" == "" ];)
+            return $([ "$(which sg_raw 2>/dev/null)" == "" ] || [ "$(which sg_scan 2>/dev/null)" == "" ])
         }
         if checksg3; then
             echo "Installing pre-requisites."
