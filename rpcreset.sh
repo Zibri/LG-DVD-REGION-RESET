@@ -1,15 +1,14 @@
 #!/bin/bash
 #
-# User and Vendor reset for LG GU**N drives.
-# May work on all recent LG drives (use -model drivename to test)
+# User and Vendor reset for LG GUD*N drives.
 # By Zibri.
 # http://www.zibri.org
 #
-unset regionmsk
+unset regionmask
 unset rinq
 bold=$(tput bold)
 normal=$(tput sgr0)
-dvdmodel="DVDRAM GU"
+dvdmodel="HL-DT-ST"
 if [ "${1^^}" == "-U" ]; then
     scmd=81
 else
@@ -19,28 +18,37 @@ else
         if [ "${1^^}" == "-I" ]; then
             rinq="i"
         else
-            if [ "${1^^}" == "-R" ]; then
-                if [ "$2" -le "0" -o "$2" -ge "7" ]; then
-                    echo "Region must be 1,2,3,4,5 or 6."
-                    exit 1
-                fi
-                regionmask=$(printf "%X" $((255-2**(($2-1)))))
+            if [ "${1^^}" == "-Z" ]; then
+                regionmask="$2"
                 shift
             else
-                if [ "${1^^}" == "--INSTALL" ]; then
-                    sudo cp rpcreset.sh /usr/local/sbin/rpcreset
-                    chmod 755 /usr/local/sbin/rpcreset
-                    echo "Program installed in /usr/local/sbin."
-                    exit 0
+                if [ "${1^^}" == "-R" ]; then
+                    if [ "$2" -lt "0" -o "$2" -ge "7" ]; then
+                        echo "Region must be 0,1,2,3,4,5 or 6."
+                        exit 1
+                    fi
+                    if [ "$2" -eq "0" ]; then
+                        regionmask=0
+                    else
+                        regionmask=$(printf "%X" $((255-2**(($2-1)))))
+                    fi
+                    shift
                 else
-                    echo "User and Vendor reset for LG GU**N drives."
-                    echo "By Zibri."
-                    echo "http://www.zibri.org"
-                    echo
-                    echo "Usage: $0 [-u|-v|-r region] [-model modelname]"
-                    echo "       $0 --install"
-                    echo
-                    exit 1
+                    if [ "${1^^}" == "--INSTALL" ]; then
+                        sudo cp rpcreset.sh /usr/local/sbin/rpcreset
+                        chmod 755 /usr/local/sbin/rpcreset
+                        echo "Program installed in /usr/local/sbin."
+                        exit 0
+                    else
+                        echo "User and Vendor reset for LG GUD*N drives."
+                        echo "By Zibri."
+                        echo "http://www.zibri.org"
+                        echo
+                        echo "Usage: $0 [-u|-v|-r region] [-model modelname]"
+                        echo "       $0 --install"
+                        echo
+                        exit 1
+                    fi
                 fi
             fi
         fi
@@ -52,7 +60,7 @@ fi
 if [[ $(uname -s) == *"inux"* ]]; then
     function checksg3 () 
     { 
-        return $([ "$(which sg_raw 2>/dev/null)" == "" ];)
+        return $([ "unknown ok not-installed" == "$(dpkg-query -W --showformat='${Status}\n' sg3-utils 2>/dev/null|grep installed)" ])
     }
     if checksg3; then
         echo "Installing pre-requisites."
@@ -62,7 +70,7 @@ else
     if [[ $(uname -s) == *"CYGWIN"* ]]; then
         function checksg3 () 
         { 
-            return $([ "$(which sg_raw 2>/dev/null)" == "" ] || [ "$(which sg_scan 2>/dev/null)" == "" ])
+            return $([ "$(which sg_raw 2>/dev/null)" == "" ];)
         }
         if checksg3; then
             echo "Installing pre-requisites."
@@ -110,7 +118,7 @@ if [ "i" == "$rinq" ]; then
     get_region
 fi
 if [ "" == "$regionmask" ]; then
-    echo -ne "\x10\x00\x00\x00\x00\x00\x00\x00\x21\x02\x$scmd\x00" | sg_raw -s 12 "$dvddev" 55 00 00 00 00 00 00 00 0C 00 2> /dev/null
+    echo -ne "\x00\x00\x00\x00\x00\x00\x00\x00\x21\x02\x$scmd\x00" | sg_raw -s 12 "$dvddev" 55 10 00 00 00 00 00 00 0C 00 2> /dev/null
 else
     echo -ne "\x00\x06\x00\x00\x$regionmask\x00\x00\x00" | sg_raw -s 8 "$dvddev" A3 00 00 00 00 00 00 00 00 08 06 00 2> /dev/null
 fi
