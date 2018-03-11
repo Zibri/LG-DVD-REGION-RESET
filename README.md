@@ -1,5 +1,5 @@
 # LG-DVD-REGION-RESET
-Reset dvd player region setting for LG DVD GUD0N, GUD1N and probably others.
+Reset dvd player region setting for LG DVD GUD0N, GUD1N, GCC-4243N and probably others.
 
 LG DVD players have secret SCSI commands to reset the region.
 There are two different commands, the region can be changed on a drive for 5 times (or reset to "no region" for 4.
